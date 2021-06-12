@@ -1,0 +1,250 @@
+1)
+#include<stdio.h>
+int BinarytoDecimal(long bin);
+int DecimaltoBinary(int dn);
+int noofdigitsofBinary(long bin);
+
+    int main()
+{
+    int n; long b;
+    scanf("%d",&n);
+    scanf("%ld",&b);
+    int k,m;
+    int d=BinarytoDecimal(b);
+            k=d+1;
+            long n1=DecimaltoBinary(k);
+            int nod1=noofdigitsofBinary(n1);
+            m=d-1;
+            long n2=DecimaltoBinary(m);
+            int nod2=noofdigitsofBinary(n2);
+       if (nod1!=n || nod2!=n)
+           printf("-1");
+       else
+        printf("%ld %ld",n2,n1);
+ }
+
+int BinarytoDecimal(long bin)
+{
+    int deci=0,rem, base=1;
+    while(bin>0)
+    {
+        rem = bin%10;
+        deci=deci+ rem*base;
+        bin=bin/10;
+        base=base*2;
+    }
+    return deci;
+}
+
+int DecimaltoBinary(int dn)
+{
+     int r,binary=0,place=1;
+     while (dn > 0)
+       {
+        r = dn % 2;
+        binary += r * place;
+        place *= 10;
+        dn /= 2;
+       }
+       return binary;
+}
+
+int noofdigitsofBinary(long bin)
+{
+    int c=0;
+    while(bin>0)
+    {
+        bin=bin/10;
+        c++;
+    }
+    return c;
+}
+
+EXPLANATION:
+
+Have named the functions and the variables such that they are self explanatory.
+So, here after taking values from the user, k is the decimal number right after the inputed number and l is the decimal number right before the inputed number
+nod1 and nod2 are used to check whether the binary number of k and l respectively contain the same number of digits as the binary number taken as input.
+All the three functions are self explanatory by their names.
+
+
+*****************************************************************************************************
+2)
+#include<stdio.h>
+int main()
+{
+    int n,c=0;
+    scanf("%d",&n);
+    char s[n];
+    scanf("%s",s);
+    for(int i=n;i!=1;i=i/2)
+    {
+        for(int j=0;j<i/2;j++)
+        {
+            if(s[j]==s[i/2 + j])
+            continue;
+            else 
+            break;
+        }
+         if(j==i/2)
+         c++;
+     }
+     printf("%d",c);
+}
+
+
+EXPLANATION:
+
+This code checks the symmetry in a string.
+The first(outer) for loop runs for the entire length of the string which reduced to half of the current length of the string after every iteration.
+The second(inner) for loop runs till the half of the current string in the outer for loop.
+The if condition in the inner loop checks character by character of the first half and the second half of the current string after every iteration, 
+it continues till the characters are same else it comes out of the inner for loop. Then if the positions are same, counter 'c' gets updated by 1.
+The last c value would be the number of times the string can be divided into equal strings(showing symmetry).
+
+
+
+**************************************************************************************************************************
+
+3)#include <stdio.h>
+
+int main()
+ {
+    int n;
+    int r,x,y;
+    scanf("%d %d %d %d",&n,&r,&x,&y);
+    int c[1000000];
+    int s[1000000];
+    int k=r;
+    for(int i=0;i<n;i++)
+    {
+        scanf("%d",&c[i]);
+    }
+    for(int i=0;i<n;i++)
+    {
+        scanf("%d",&s[i]);
+    }
+    for(int i=0;i<n;i++)
+    {
+        if(c[i]==1 && s[i]==1 )
+        r=r+x;
+        if(c[i]==1 && s[i]==0)
+        r=r-y;
+    }
+    if(r<k)
+    printf("demoted");
+    else if(r>k)
+    printf("promoted");
+    else 
+    printf("no change");
+}
+
+
+EXPLANATION:
+
+if workshop completed successfully on the i-th day and if the team eats pizza on the i- th day
+If both the above conditions are true, only then x gets added to the original amount orelse it remains the same
+If workshop completed successfully on the i-th day but if the team doesn't eat pizza on the i- th day then y gets decreased from the original amount orelse it remains the same
+If the new amount is greater than the original amount then it shows promoted else demoted.
+
+**************************************************************************************************************************
+
+4)#include<stdio.h>
+int main()
+{
+    int n[5],t; int r;
+    scanf("%d",&t);
+    for(r=0;r<t;r++)
+    {
+        scanf("%d\n",&n[r]);
+    }
+
+    for(r=0;r<t;r++)
+    {
+        int k=0;
+        for(int i=1;i<=n[r];i++)
+        {
+            if(i<=((n[r]+1)/2))
+            k++;
+            else
+            k--;
+            for(int j=1;j<=n[r];j++)
+            {
+                if(j<=((((n[r]+1)/2)+1) -k) || j>=(((n[r]-1)/2) +k))
+                printf("*");
+                else
+                printf(" ");
+            }
+            printf("\n");
+        }
+    }
+}
+
+
+EXPLANATION:
+
+The pattern will print the desired output for all n=odd numbers.
+Will show the working for n=5(dry run)
+
+  1  2  3  4   5 
+1 *  *  *  *   *
+
+2 *  *     *   *
+
+3 *            *  
+ 
+4 *  *     *   *
+
+5 *  *  *  *   *
+    
+ i        j
+ 
+ 1    1 2 3 4 5 
+    
+ 2    1 2   4 5
+ 
+ 3    1       5
+  
+ 4    1 2   4 5
+
+ 5    1 2 3 4 5
+
+k   i       j
+
+1   1   j<=3 j>=3
+
+2   2   j<=2 j>=4
+
+3   3   j<=1 j>=5
+
+2   4   j<=2 j>=4
+
+1   5   j<=3 j>=3
+
+So, j<=4-k || j>=2+k
+
+Did the same for n=3 and 9 as well ...
+It comes out to be:
+j<=((n+1)/2)+1 -k || j>=((n-1)/2) +k
+where k is an extra variable to fit the conditions for j for every value of i.
+The k value increases by 1 till half of the series and then starts decreamenting
+
+
+***************************************************************************************************************************
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
